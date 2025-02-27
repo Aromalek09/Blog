@@ -20,16 +20,14 @@ from rest_framework.routers import DefaultRouter
 from api.views import *
 from api.urls import *
 
-
-router=DefaultRouter()
-router.register('project',ProjectViewset,basename='project'),
-
-urlpatterns=router.urls
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include(router.urls)),
     path('comment',CommentsView .as_view(),name='comment'),
-    path('blog',BlogView.as_view(),name='blog')
-
-]+router.urls
+    path('blog',BlogView.as_view(),name='blog'),
+    path('projects/', ProjectViewSet.as_view({'get': 'list'}), name='project-list'),        # List
+    path('projects/create/', ProjectViewSet.as_view({'post': 'create'}), name='project-create'),  # Create a project
+    path('projects/<int:pk>/', ProjectViewSet.as_view({'get': 'retrieve'}), name='project-detail'),  # Retrieve a single project
+    path('projects/<int:pk>/update/', ProjectViewSet.as_view({'put': 'update'}), name='project-update'),  # Update a project
+    path('projects/<int:pk>/delete/', ProjectViewSet.as_view({'delete': 'destroy'}), name='project-delete'),  # Delete a project
+    
+]
